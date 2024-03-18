@@ -71,13 +71,13 @@ foreach (OCCT_PACKAGE ${USED_PACKAGES})
     list (LENGTH SOURCE_FILES_FLEX SOURCE_FILES_FLEX_LEN)
 
     # remove old general version of FlexLexer
-    if (EXISTS ${CMAKE_SOURCE_DIR}/${RELATIVE_SOURCES_DIR}/FlexLexer/FlexLexer.h)
-      message (STATUS "Info: remove old FLEX header file: ${CMAKE_SOURCE_DIR}/${RELATIVE_SOURCES_DIR}/FlexLexer/FlexLexer.h")
-      file(REMOVE ${CMAKE_SOURCE_DIR}/${RELATIVE_SOURCES_DIR}/FlexLexer/FlexLexer.h)
+    if (EXISTS ${OCCT_KSHELL_SOURCE_DIR}/${RELATIVE_SOURCES_DIR}/FlexLexer/FlexLexer.h)
+      message (STATUS "Info: remove old FLEX header file: ${OCCT_KSHELL_SOURCE_DIR}/${RELATIVE_SOURCES_DIR}/FlexLexer/FlexLexer.h")
+      file(REMOVE ${OCCT_KSHELL_SOURCE_DIR}/${RELATIVE_SOURCES_DIR}/FlexLexer/FlexLexer.h)
     endif()
     # install copy of FlexLexer.h locally to allow further building without flex
     if (FLEX_INCLUDE_DIR AND EXISTS "${FLEX_INCLUDE_DIR}/FlexLexer.h")
-      configure_file("${FLEX_INCLUDE_DIR}/FlexLexer.h" "${CMAKE_SOURCE_DIR}/${RELATIVE_SOURCES_DIR}/FlexLexer/FlexLexer.h" @ONLY NEWLINE_STYLE LF)
+      configure_file("${FLEX_INCLUDE_DIR}/FlexLexer.h" "${OCCT_KSHELL_SOURCE_DIR}/${RELATIVE_SOURCES_DIR}/FlexLexer/FlexLexer.h" @ONLY NEWLINE_STYLE LF)
     endif()
 
     # bison files
@@ -103,7 +103,7 @@ foreach (OCCT_PACKAGE ${USED_PACKAGES})
         if (EXISTS "${CURRENT_FLEX_FILE}" AND EXISTS "${CURRENT_BISON_FILE}" AND ${ARE_FILES_EQUAL})
 
           # Note: files are generated in original source directory (not in patch!)
-          set (FLEX_BISON_TARGET_DIR "${CMAKE_SOURCE_DIR}/${RELATIVE_SOURCES_DIR}/${OCCT_PACKAGE}")
+          set (FLEX_BISON_TARGET_DIR "${OCCT_KSHELL_SOURCE_DIR}/${RELATIVE_SOURCES_DIR}/${OCCT_PACKAGE}")
 
           # choose appropriate extension for generated files: "cxx" if source file contains
           # instruction to generate C++ code, "c" otherwise
@@ -141,7 +141,7 @@ foreach (OCCT_PACKAGE ${USED_PACKAGES})
           endif()
 
           BISON_TARGET (Parser_${CURRENT_BISON_FILE_NAME} ${CURRENT_BISON_FILE} "${FLEX_BISON_TARGET_DIR}/${BISON_OUTPUT_FILE}"
-                        COMPILE_FLAGS "-p ${CURRENT_BISON_FILE_NAME} -l -M ${CMAKE_SOURCE_DIR}/${RELATIVE_SOURCES_DIR}/=")
+                        COMPILE_FLAGS "-p ${CURRENT_BISON_FILE_NAME} -l -M ${OCCT_KSHELL_SOURCE_DIR}/${RELATIVE_SOURCES_DIR}/=")
           FLEX_TARGET  (Scanner_${CURRENT_FLEX_FILE_NAME} ${CURRENT_FLEX_FILE} "${FLEX_BISON_TARGET_DIR}/${FLEX_OUTPUT_FILE}"
                         COMPILE_FLAGS "-P${CURRENT_FLEX_FILE_NAME} -L")
           ADD_FLEX_BISON_DEPENDENCY (Scanner_${CURRENT_FLEX_FILE_NAME} Parser_${CURRENT_BISON_FILE_NAME})
@@ -163,13 +163,13 @@ foreach (OCCT_PACKAGE ${USED_PACKAGES})
       file (STRINGS "${BUILD_PATCH}/${RELATIVE_SOURCES_DIR}/${OCCT_PACKAGE}/FILES" SOURCE_FILES_M REGEX ".+[.]mm")
     endif()
   else()
-    file (STRINGS "${CMAKE_SOURCE_DIR}/${RELATIVE_SOURCES_DIR}/${OCCT_PACKAGE}/FILES"     HEADER_FILES_M   REGEX ".+[.]h")
-    file (STRINGS "${CMAKE_SOURCE_DIR}/${RELATIVE_SOURCES_DIR}/${OCCT_PACKAGE}/FILES"     HEADER_FILES_LXX REGEX ".+[.]lxx")
-    file (STRINGS "${CMAKE_SOURCE_DIR}/${RELATIVE_SOURCES_DIR}/${OCCT_PACKAGE}/FILES"     HEADER_FILES_GXX REGEX ".+[.]gxx")
+    file (STRINGS "${OCCT_KSHELL_SOURCE_DIR}/${RELATIVE_SOURCES_DIR}/${OCCT_PACKAGE}/FILES"     HEADER_FILES_M   REGEX ".+[.]h")
+    file (STRINGS "${OCCT_KSHELL_SOURCE_DIR}/${RELATIVE_SOURCES_DIR}/${OCCT_PACKAGE}/FILES"     HEADER_FILES_LXX REGEX ".+[.]lxx")
+    file (STRINGS "${OCCT_KSHELL_SOURCE_DIR}/${RELATIVE_SOURCES_DIR}/${OCCT_PACKAGE}/FILES"     HEADER_FILES_GXX REGEX ".+[.]gxx")
 
-    file (STRINGS "${CMAKE_SOURCE_DIR}/${RELATIVE_SOURCES_DIR}/${OCCT_PACKAGE}/FILES"     SOURCE_FILES_C REGEX ".+[.]c")
+    file (STRINGS "${OCCT_KSHELL_SOURCE_DIR}/${RELATIVE_SOURCES_DIR}/${OCCT_PACKAGE}/FILES"     SOURCE_FILES_C REGEX ".+[.]c")
     if(APPLE)
-      file (STRINGS "${CMAKE_SOURCE_DIR}/${RELATIVE_SOURCES_DIR}/${OCCT_PACKAGE}/FILES"   SOURCE_FILES_M REGEX ".+[.]mm")
+      file (STRINGS "${OCCT_KSHELL_SOURCE_DIR}/${RELATIVE_SOURCES_DIR}/${OCCT_PACKAGE}/FILES"   SOURCE_FILES_M REGEX ".+[.]mm")
     endif()
   endif()
     
@@ -185,8 +185,8 @@ foreach (OCCT_PACKAGE ${USED_PACKAGES})
       list (APPEND USED_INCFILES "${BUILD_PATCH}/${RELATIVE_SOURCES_DIR}/${OCCT_PACKAGE}/${HEADER_FILE}")
       SOURCE_GROUP ("Header Files\\${OCCT_PACKAGE_NAME}" FILES "${BUILD_PATCH}/${RELATIVE_SOURCES_DIR}/${OCCT_PACKAGE}/${HEADER_FILE}")
     else()
-      list (APPEND USED_INCFILES "${CMAKE_SOURCE_DIR}/${RELATIVE_SOURCES_DIR}/${OCCT_PACKAGE}/${HEADER_FILE}")
-      SOURCE_GROUP ("Header Files\\${OCCT_PACKAGE_NAME}" FILES "${CMAKE_SOURCE_DIR}/${RELATIVE_SOURCES_DIR}/${OCCT_PACKAGE}/${HEADER_FILE}")
+      list (APPEND USED_INCFILES "${OCCT_KSHELL_SOURCE_DIR}/${RELATIVE_SOURCES_DIR}/${OCCT_PACKAGE}/${HEADER_FILE}")
+      SOURCE_GROUP ("Header Files\\${OCCT_PACKAGE_NAME}" FILES "${OCCT_KSHELL_SOURCE_DIR}/${RELATIVE_SOURCES_DIR}/${OCCT_PACKAGE}/${HEADER_FILE}")
     endif()
   endforeach()
 
@@ -196,8 +196,8 @@ foreach (OCCT_PACKAGE ${USED_PACKAGES})
       list (APPEND USED_SRCFILES "${BUILD_PATCH}/${RELATIVE_SOURCES_DIR}/${OCCT_PACKAGE}/${SOURCE_FILE}")
       SOURCE_GROUP ("Source Files\\${OCCT_PACKAGE_NAME}" FILES "${BUILD_PATCH}/${RELATIVE_SOURCES_DIR}/${OCCT_PACKAGE}/${SOURCE_FILE}")
     else()
-      list (APPEND USED_SRCFILES "${CMAKE_SOURCE_DIR}/${RELATIVE_SOURCES_DIR}/${OCCT_PACKAGE}/${SOURCE_FILE}")
-      SOURCE_GROUP ("Source Files\\${OCCT_PACKAGE_NAME}" FILES "${CMAKE_SOURCE_DIR}/${RELATIVE_SOURCES_DIR}/${OCCT_PACKAGE}/${SOURCE_FILE}")
+      list (APPEND USED_SRCFILES "${OCCT_KSHELL_SOURCE_DIR}/${RELATIVE_SOURCES_DIR}/${OCCT_PACKAGE}/${SOURCE_FILE}")
+      SOURCE_GROUP ("Source Files\\${OCCT_PACKAGE_NAME}" FILES "${OCCT_KSHELL_SOURCE_DIR}/${RELATIVE_SOURCES_DIR}/${OCCT_PACKAGE}/${SOURCE_FILE}")
     endif()
   endforeach()
 
@@ -220,7 +220,7 @@ if (MSVC)
   if (APPLY_OCCT_PATCH_DIR AND EXISTS "${APPLY_OCCT_PATCH_DIR}/adm/templates/occt_toolkit.rc.in")
     configure_file("${APPLY_OCCT_PATCH_DIR}/adm/templates/occt_toolkit.rc.in" "${USED_RCFILE}" @ONLY)
   else()
-    configure_file("${CMAKE_SOURCE_DIR}/adm/templates/occt_toolkit.rc.in" "${USED_RCFILE}" @ONLY)
+    configure_file("${OCCT_KSHELL_SOURCE_DIR}/adm/templates/occt_toolkit.rc.in" "${USED_RCFILE}" @ONLY)
   endif()
 endif()
 

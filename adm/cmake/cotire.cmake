@@ -622,7 +622,7 @@ function (cotire_get_target_include_directories _config _language _target _inclu
 	list (LENGTH _includeDirs _projectInsertIndex)
 	foreach (_dir ${_dirs})
 		if (CMAKE_INCLUDE_DIRECTORIES_PROJECT_BEFORE)
-			cotire_check_is_path_relative_to("${_dir}" _isRelative "${CMAKE_SOURCE_DIR}" "${CMAKE_BINARY_DIR}")
+			cotire_check_is_path_relative_to("${_dir}" _isRelative "${OCCT_KSHELL_SOURCE_DIR}" "${CMAKE_BINARY_DIR}")
 			if (_isRelative)
 				list (LENGTH _includeDirs _len)
 				if (_len EQUAL _projectInsertIndex)
@@ -2769,8 +2769,8 @@ function (cotire_init_cotire_target_properties _target)
 	endif()
 	get_property(_isSet TARGET ${_target} PROPERTY COTIRE_PREFIX_HEADER_IGNORE_PATH SET)
 	if (NOT _isSet)
-		set_property(TARGET ${_target} PROPERTY COTIRE_PREFIX_HEADER_IGNORE_PATH "${CMAKE_SOURCE_DIR}")
-		cotire_check_is_path_relative_to("${CMAKE_BINARY_DIR}" _isRelative "${CMAKE_SOURCE_DIR}")
+		set_property(TARGET ${_target} PROPERTY COTIRE_PREFIX_HEADER_IGNORE_PATH "${OCCT_KSHELL_SOURCE_DIR}")
+		cotire_check_is_path_relative_to("${CMAKE_BINARY_DIR}" _isRelative "${OCCT_KSHELL_SOURCE_DIR}")
 		if (NOT _isRelative)
 			set_property(TARGET ${_target} APPEND PROPERTY COTIRE_PREFIX_HEADER_IGNORE_PATH "${CMAKE_BINARY_DIR}")
 		endif()
@@ -4029,7 +4029,7 @@ else()
 			"The property can be set to a list of directories."
 			"If a header file is found in one of these directories or sub-directories, it will be excluded from the generated prefix header."
 			"Inherited from directory."
-			"If not set, this property is initialized to \${CMAKE_SOURCE_DIR};\${CMAKE_BINARY_DIR}."
+			"If not set, this property is initialized to \${OCCT_KSHELL_SOURCE_DIR};\${CMAKE_BINARY_DIR}."
 	)
 
 	define_property(

@@ -34,13 +34,13 @@ if /I "%VCVER%" == "@COMPILER@" (
     )
 
     set "CSF_OCCTIncludePath=@CMAKE_BINARY_DIR@/inc"
-    set "CSF_OCCTResourcePath=@CMAKE_SOURCE_DIR@/src"
-    set "CSF_OCCTDataPath=@CMAKE_SOURCE_DIR@/data"
-    set "CSF_OCCTSamplesPath=@CMAKE_SOURCE_DIR@/samples"
-    set "CSF_OCCTTestsPath=@CMAKE_SOURCE_DIR@/tests"
-    set "CSF_OCCTDocPath=@CMAKE_SOURCE_DIR@/doc"
+    set "CSF_OCCTResourcePath=@OCCT_KSHELL_SOURCE_DIR@/src"
+    set "CSF_OCCTDataPath=@OCCT_KSHELL_SOURCE_DIR@/data"
+    set "CSF_OCCTSamplesPath=@OCCT_KSHELL_SOURCE_DIR@/samples"
+    set "CSF_OCCTTestsPath=@OCCT_KSHELL_SOURCE_DIR@/tests"
+    set "CSF_OCCTDocPath=@OCCT_KSHELL_SOURCE_DIR@/doc"
 
     rem for compatibility with external application using CASROOT
-    set "CASROOT=@CMAKE_SOURCE_DIR@"
+    set "CASROOT=@OCCT_KSHELL_SOURCE_DIR@"
   ) 
 )

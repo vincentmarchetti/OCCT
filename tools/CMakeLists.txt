@@ -24,9 +24,9 @@ else()
   set (ADDITIONAL_DLL_DIR "${ADDITIONAL_DLL_DIR}" CACHE PATH "${ADDITIONAL_DLL_DIR_DESCR}" FORCE)
 endif()
 
-set (CURRENT_DIR "${CMAKE_SOURCE_DIR}")
-set (CMAKE_SOURCE_DIR "${CMAKE_SOURCE_DIR}/.." CACHE INTERNAL "" FORCE)
-set (CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/adm/cmake")
+set (CURRENT_DIR "${OCCT_KSHELL_SOURCE_DIR}")
+set (OCCT_KSHELL_SOURCE_DIR "${OCCT_KSHELL_SOURCE_DIR}/.." CACHE INTERNAL "" FORCE)
+set (CMAKE_MODULE_PATH "${OCCT_KSHELL_SOURCE_DIR}/adm/cmake")
 
 set (CMAKE_SUPPRESS_REGENERATION TRUE)
 
@@ -37,7 +37,7 @@ macro (OCCT_INCLUDE_CMAKE_FILE BEING_INCLUDED_FILE)
   if (BUILD_PATCH AND EXISTS "${BUILD_PATCH}/${BEING_INCLUDED_FILE}.cmake")
     include (${BUILD_PATCH}/${BEING_INCLUDED_FILE}.cmake)
   else()
-    include (${CMAKE_SOURCE_DIR}/${BEING_INCLUDED_FILE}.cmake)
+    include (${OCCT_KSHELL_SOURCE_DIR}/${BEING_INCLUDED_FILE}.cmake)
   endif()
 endmacro()
 
@@ -301,7 +301,7 @@ OCCT_INCLUDE_3RDPARTY_PRODUCT (USE_GLX "adm/cmake/glx")
 OCCT_INCLUDE_CMAKE_FILE ("adm/cmake/qt")
 OCCT_INCLUDE_CMAKE_FILE ("adm/cmake/occt_macros")
 
-#include (${CMAKE_SOURCE_DIR}/adm/cmake/3rdparty.cmake)
+#include (${OCCT_KSHELL_SOURCE_DIR}/adm/cmake/3rdparty.cmake)
 
 set (3RDPARTY_DLL_DEB_PATH "${3RDPARTY_DLL_PATH}")
 
@@ -346,7 +346,7 @@ endif()
   # collect all the headers to <binary dir>/inc/inspector folder
   string(TIMESTAMP CURRENT_TIME "%H:%M:%S")
   message (STATUS "\nInfo: \(${CURRENT_TIME}\) Start collecting all OCCT tool header files into ${CMAKE_BINARY_DIR}/inc/inspector ...")
-  COLLECT_AND_INSTALL_OCCT_HEADER_FILES ("${CMAKE_BINARY_DIR}" "${BUILD_TOOL_TOOLKITS}" "${CMAKE_SOURCE_DIR}/tools" "${INSTALL_DIR_INCLUDE}/inspector")
+  COLLECT_AND_INSTALL_OCCT_HEADER_FILES ("${CMAKE_BINARY_DIR}" "${BUILD_TOOL_TOOLKITS}" "${OCCT_KSHELL_SOURCE_DIR}/tools" "${INSTALL_DIR_INCLUDE}/inspector")
 #endif()
 
 # include <cmake binary folder>/inc
